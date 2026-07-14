@@ -40,6 +40,20 @@ Sort fragments into these categories:
 
 **Limit: 2-3 clarifying questions max.** Beyond that, make reasonable assumptions and flag them.
 
+### Prompt Review Gate
+
+After Phase 2 (Triage), before Phase 3 (Craft), run a Prompt Review Gate if:
+1. The user has already written a prompt statement (not just fragments)
+2. OR the user says "check my prompt", "review this", "fix this prompt"
+3. OR after collecting fragments, the user's original input was a coherent statement
+
+**How it works:**
+1. Analyze the user's existing prompt against the Quality Checklist. Do NOT rewrite it yet.
+2. Present findings: Issues → Suggestions → Corrected Version
+3. Ask the user: "Use corrected version (Recommended) / Apply specific fixes / Skip review"
+4. Wait for user response before proceeding. Do NOT auto-advance.
+5. Focus on structural problems, not cosmetic ones. Never rewrite intent.
+
 ### Phase 3 — Craft
 
 Build the prompt using this template:
@@ -64,6 +78,9 @@ Build the prompt using this template:
 ## Output Format
 [Structure, format, tone, length.]
 
+## Verification
+[Specific, checkable verification steps the executor MUST run before declaring completion. Not "verify it works" but "confirm X is present, Y matches pattern." The executor's last instruction — if they skip everything else, they must still run these checks.]
+
 ## Examples (if available)
 [Show, don't tell.]
 ```
@@ -74,6 +91,7 @@ Build the prompt using this template:
 3. Constraints are gates — use imperative: "Do X", "Never Y", "Always Z"
 4. Examples are worth 1000 words — include them verbatim if provided
 5. Remove ambiguity — "process the files" → "rename each .jpg to YYYY-MM-DD_original.jpg"
+6. Always end with Verification — the last instruction block before Examples must be a ## Verification section. If the executor skips everything else, they must still run these checks.
 
 ### Phase 4 — Deliver
 
@@ -91,15 +109,17 @@ Before delivering, verify:
 - [ ] Context is sufficient — enough info to start working?
 - [ ] Steps are executable — each step doable without follow-up questions?
 - [ ] No contradictions — any constraint conflict with goal or another constraint?
+- [ ] Agent-appropriate — is the format adapted to the target platform?
+- [ ] Verification section present — does the prompt end with explicit, checkable verification steps the executor MUST run before declaring completion? For delegated/multi-step tasks, this is mandatory. For simple one-shot tasks, a single-line check is sufficient.
 
 ## Anti-patterns
 
-- **Do not rewrite intent.** "Summarize" stays "summarize", not "comprehensive analysis".
-- **Do not add unrequested requirements.** No scope creep.
-- **Do not over-structure simple requests.** A one-sentence task may only need a one-paragraph prompt.
-- **Do not bury the task.** If 300 words precede the task description, it's backwards.
-- **Do not ask more than 3 clarifying questions.** Flag assumptions instead.
-- **Do not deliver without running the checklist.**
+- Do not rewrite intent. "Summarize" stays "summarize", not "comprehensive analysis".
+- Do not add unrequested requirements. No scope creep.
+- Do not over-structure simple requests. A one-sentence task may only need a one-paragraph prompt.
+- Do not bury the task. If 300 words precede the task description, it's backwards.
+- Do not ask more than 3 clarifying questions. Flag assumptions instead.
+- Do not deliver without running the checklist. A prompt that fails any checklist item MUST be fixed before delivery. Do NOT deliver a prompt with known checklist failures.
 
 ## Edge cases
 

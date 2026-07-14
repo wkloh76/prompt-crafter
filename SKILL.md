@@ -86,6 +86,49 @@ Now organize the fragments into categories. Use this framework:
 
 **Limit yourself to 2-3 clarifying questions max.** If you need more, prioritize the ones that materially change the prompt structure.
 
+### Prompt Review Gate
+
+After Phase 2 (Triage), before Phase 3 (Craft), run a **Prompt Review Gate** if:
+
+1. The user has already written a prompt statement (not just fragments) — e.g., "Turn this into a prompt: '...'" or "Please check this statement: '...'"
+2. OR the user says "check my prompt", "review this", "fix this prompt"
+3. OR after collecting fragments, the user's original input was a coherent statement (not scattered bullets)
+
+**How Prompt Review works:**
+
+1. **Analyze the user's existing prompt** against the Quality Checklist (Section 4). Do NOT rewrite it yet.
+2. **Present findings in this format:**
+
+```
+## Issues
+- "<problematic phrase>" → <why it's wrong: vague, ambiguous, buried, etc.>
+- "<another issue>" → <explanation>
+
+## Suggestions
+- Replace "<old phrase>" with "<new phrase>"
+- "<specific recommendation>"
+
+## Corrected Version
+[short, usable statement — one paragraph max]
+
+Want me to:
+1. Use this corrected version and continue crafting (Recommended)
+2. Only apply specific fixes — tell me which ones
+3. Skip review and craft from scratch
+```
+
+3. **Wait for user response.** Do NOT proceed to Phase 3 until the user answers.
+4. **If user says "skip" or "continue"**: Proceed to Phase 3 using the user's original input.
+5. **If user accepts the corrected version**: Use it as the starting point for Phase 3.
+6. **If user wants specific fixes**: Apply only those fixes, then proceed to Phase 3.
+
+**Prompt Review principles:**
+- **Be brief.** Issues + Suggestions + Corrected Version. That's it. No full template rebuild.
+- **Focus on structural problems**, not cosmetic ones. Vague references, missing distinctions, buried critical fixes > typos.
+- **The corrected version must be short.** If the user says the original is "too long," the fix should be shorter, not longer.
+- **Never rewrite the user's intent.** Fix the structure, not the goal.
+- **Always ask before proceeding.** Do NOT auto-advance to Phase 3 after a review.
+
 ### Phase 3 — CRAFT: Build the Structured Prompt
 
 Now produce the final prompt. Use this universal template as your starting point:
@@ -110,6 +153,9 @@ Now produce the final prompt. Use this universal template as your starting point
 ## Output Format
 [Describe the expected deliverable. Include structure, format, tone, length.]
 
+## Verification
+[Explicit verification steps the executor MUST perform before declaring completion. Each check must be specific and checkable — not "verify it works" but "confirm X is present, Y is absent, Z matches pattern." For delegated tasks: verify produced files match requirements. For code tasks: verify patterns, imports, syntax. For data tasks: verify counts, formats, ranges. This section is the executor's last instruction — if they skip everything else, they must still run these checks.]
+
 ## Examples (if available)
 [Show, don't tell. Include a concrete example of desired output.]
 ```
@@ -121,6 +167,7 @@ Now produce the final prompt. Use this universal template as your starting point
 3. **Constraints are gates, not suggestions.** Use imperative language: "Do X", "Never Y", "Always Z".
 4. **Examples are worth 1000 words of description.** If the user provides an example, include it verbatim. If they don't, ask if they have one.
 5. **Remove ambiguity.** If a word can mean two things, pick one or clarify. "Process the files" → "Rename each .jpg file to match the pattern YYYY-MM-DD_original-filename.jpg."
+6. **Always end with Verification.** The last instruction block before Examples must be a `## Verification` section. Each check must be specific and checkable — not "verify it works" but "confirm X is present, Y is absent, Z matches pattern." This is the executor's last instruction; if they skip everything else, they must still run these checks.
 
 ### Phase 4 — DELIVER: Present and Iterate
 
@@ -140,11 +187,12 @@ Claude Code uses a system prompt + user message format. Adapt as:
 
 ```
 System: [Role + Context + Constraints, condensed]
-User: [Task + Steps + Output Format + Examples]
+User: [Task + Steps + Output Format + Verification + Examples]
 ```
 
 - Keep the system prompt under 500 words. Claude Code processes it on every turn.
 - Put task-specific instructions in the user message.
+- Put the Verification section in the user message (not system) — it's an execution instruction, not a system rule.
 - Use `CLAUDE.md` conventions if the prompt is meant to be a project-level instruction.
 
 ### Codex (OpenAI)
@@ -165,10 +213,14 @@ Output: [Format description]
 
 Constraints:
 - [Constraint]
+
+Verification:
+- [Specific check the executor must perform before declaring completion]
 ```
 
 - Codex prefers direct, imperative language. Avoid conversational framing.
 - Combine Role and Context into the opening paragraph.
+- The Verification section is critical for Codex — it tends to skip self-checks without explicit instruction.
 
 ### OpenClaw
 
@@ -186,6 +238,9 @@ Requirements:
 Deliverable: [Output description]
 
 Constraints: [List]
+
+Verification:
+- [Specific check before completion]
 ```
 
 - OpenClaw responds well to structured "Goal/Requirements/Deliverable" triads.
@@ -205,10 +260,13 @@ The output should be [format], with [tone] tone, roughly [length].
 Important rules:
 - [Constraint]
 - [Constraint]
+
+Before you finish, verify:
+- [Specific check — e.g., "Confirm X matches Y", "Check that Z is present"]
 ```
 
 - Hermes prefers natural language over rigid templates.
-- Embed constraints in the flow rather than as a separate section.
+- Embed the Verification as a natural-sounding instruction: "Before you finish, verify..."
 - Use "I need you to" framing — it signals direct task assignment.
 
 ### General-Purpose LLM (ChatGPT, generic interfaces)
@@ -229,6 +287,7 @@ Before delivering the final prompt, verify:
 - [ ] **Steps are executable** — can each step be done without asking follow-up questions?
 - [ ] **No contradictions** — does any constraint conflict with the goal or another constraint?
 - [ ] **Agent-appropriate** — is the format adapted to the target platform?
+- [ ] **Verification section present** — does the prompt end with explicit, checkable verification steps the executor MUST run before declaring completion? For delegated/multi-step tasks, this is mandatory. For simple one-shot tasks, a single-line check is sufficient.
 
 ---
 
@@ -239,7 +298,7 @@ Before delivering the final prompt, verify:
 - **Do not over-structure simple requests.** A one-sentence task sometimes needs only a one-paragraph prompt. Don't force the full template.
 - **Do not bury the task.** If the AI has to read 300 words before understanding what to do, the prompt is backwards.
 - **Do not ask more than 3 clarifying questions.** If you still have gaps, make reasonable assumptions and flag them: "I assumed X — let me know if that's wrong."
-- **Do not deliver without the quality checklist.** A prompt that fails any checklist item should be fixed or flagged.
+- **Do not deliver without the quality checklist.** A prompt that fails any checklist item MUST be fixed before delivery. Do NOT deliver a prompt with known checklist failures.
 
 ---
 
@@ -284,6 +343,11 @@ A markdown document with the following structure:
   - [ ] Checklist item — why it matters
 - ## Review Quality Guidelines
   - Guideline
+
+## Verification
+- Count checklist items in each section — must be 5-8 per section
+- Verify total word count is under 500
+- Spot-check 3 random items: each must be a yes/no question with a "why it matters" line
 ```
 
 ### Example 2: Claude Code adaptation
@@ -305,6 +369,11 @@ Steps:
 4. If the change is complex, add a 1-2 sentence body explaining the why, not the what.
 
 Output: Only the commit message. No explanations, no alternatives, no markdown wrapping.
+
+Verification:
+- Confirm output is a single line under 72 characters
+- Verify format matches: type(scope): description
+- Check no markdown wrapping, explanations, or alternatives are present
 ```
 
 ### Example 3: OpenClaw adaptation
@@ -332,6 +401,12 @@ Constraints:
 - Do not drop rows with missing matches; include them with null values in non-matching columns
 - Preserve original column names with a file-prefix to avoid collisions (e.g., sensor1_temp, sensor2_temp)
 - Handle up to 1 million rows total across all files
+
+Verification:
+- Confirm all timestamps in the output are ISO 8601 format
+- Verify the merged CSV column count matches (original columns + file-prefixed duplicates)
+- Check the gap report lists every gap > 5 seconds with timestamps and duration
+- Spot-check 3 random rows: verify merge was correct within 1-second tolerance
 ```
 
 ---
