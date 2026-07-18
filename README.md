@@ -4,6 +4,8 @@
 
 **Prompt Crafter** is an AI skill that transforms fragmented, half-formed ideas into well-structured prompts that any AI agent can execute reliably. Drop in bullet points, rough notes, or vague wishes — it infers your intent, fills in the gaps, and hands back a polished prompt ready for Claude Code, Codex, Cursor, Windsurf, Cline, OpenClaw, Hermes, or any general-purpose LLM.
 
+> **Disclaimer:** This project is developed entirely in my personal time, using my own equipment and resources. It is not affiliated with, endorsed by, or related to my employer. No proprietary company information, code, or resources were used in the creation of this project.
+
 ---
 
 ## The Problem
