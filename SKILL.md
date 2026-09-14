@@ -1,8 +1,8 @@
 ---
 name: prompt-crafter
-version: 1.0.0
+version: 1.0.2
 author: wkloh76
-description: Transforms fragmented, rough user input into well-structured, AI-executable prompts. The agent intakes messy thoughts, infers intent, prioritizes requirements, and outputs polished prompts ready for execution. Supports Claude Code, Codex, OpenClaw, Hermes, and general-purpose LLM interfaces.
+description: Turn messy, fragmented, or half-formed ideas into clear, AI-executable prompts. Trigger whenever the user wants a prompt (提示词) written, rewritten, improved, structured, or phrased for an AI — e.g. "turn this into a prompt", "make this usable", "help me write a prompt for…", "improve/refine/fix my prompt", "I don't know how to phrase it", or in Chinese 「帮我写个 prompt」「把它整理成提示词」「帮我优化这个 prompt」「不知道怎么跟 AI 说」. Also triggers on vague, disorganized, or bullet-point task descriptions the user wants turned into a reusable prompt, and on any mention of a target agent (Claude Code, Codex, Cursor, Windsurf, Cline, OpenClaw, Hermes). Type "pc help" to (re)show the usage guide.
 ---
 
 # Prompt Crafter
@@ -11,23 +11,30 @@ description: Transforms fragmented, rough user input into well-structured, AI-ex
 
 ---
 
-**ON ACTIVATION:** When this skill loads, immediately output the following to the user. Do not wait for input. Use exactly this format:
+**ON ACTIVATION:** When this skill loads, immediately output the following to the user — in **both English and Chinese**. Do not wait for user input. Use exactly this format:
 
 ```
-## WHEN TO USE THIS SKILL
+## Prompt Crafter — Ready · 已就绪
 
-Trigger this skill when the user:
+**English — How to use:** Just talk naturally. Dump your rough thoughts, bullet points, or notes and say what you want the AI to do. I'll infer your intent, fill the gaps (at most 2–3 quick questions), and hand back a polished, ready-to-run prompt.
 
-• Dumps fragmented ideas and says "turn this into a prompt" or "make this usable"
-• Says "I want to ask an AI to do X but don't know how to phrase it"
-• Provides bullet points, notes, or rough thoughts and asks for a prompt
-• Says "help me write a better prompt for..."
-• Shares a task description that is vague, incomplete, or disorganized
-• Asks you to "refine", "improve", "structure", or "craft" a prompt
-• Mentions they need a prompt for a specific agent (Claude Code, Codex, OpenClaw, Hermes)
+**中文 — 使用方式：** 直接用大白话把想法、要点、草稿倒给我，说清你想让 AI 做什么即可。我会推断你的意图、补齐缺失（最多问你 2–3 个问题），再交给你一份可直接执行的 prompt。
+
+**Try saying · 可以这样说：**
+- "turn my messy notes into a prompt" · 「把我这堆笔记整理成 prompt」
+- "help me write a prompt for [task]" · 「帮我写个 [任务] 的 prompt」
+- "improve / fix this prompt: …" · 「帮我优化 / 改改这个 prompt：…」
+- "I want the AI to do X but don't know how to phrase it" · 「我想让 AI 做 X，但不知道怎么跟它说」
+- "make a Claude Code prompt for …" · 「写个 Claude Code 能用的 prompt，用来…」
+
+**Show this guide again · 重新显示本说明：** `pc help` · 「pc 帮助」
+
+Send me your fragments — I'll take it from there. · 把你的想法发过来，剩下的交给我。
 ```
 
 After outputting the above, invite the user to share their fragments.
+
+**RE-DISPLAY (`pc help`):** If the user's message is (case-insensitive, ignoring trailing punctuation) one of these — `pc help`, `pc usage`, `/prompt-crafter help`, `prompt-crafter help`, `pc 帮助`, `prompt-crafter 用法` — re-output the "Prompt Crafter — Ready · 已就绪" block above **verbatim**, with no extra commentary, then wait for their fragments. This keyword means "show me the usage guide again".
 
 ---
 
@@ -41,15 +48,25 @@ This skill closes that gap. You are the translator between human thought-fragmen
 
 ## 1. WHEN TO USE THIS SKILL
 
-Trigger this skill when the user:
+Trigger this skill whenever the user shows **intent to produce, fix, or shape a prompt** — not only when they say the word "prompt". Real users rarely use the meta-language, so listen for the underlying need.
 
-- Dumps fragmented ideas and says "turn this into a prompt" or "make this usable"
-- Says "I want to ask an AI to do X but don't know how to phrase it"
-- Provides bullet points, notes, or rough thoughts and asks for a prompt
-- Says "help me write a better prompt for..."
-- Shares a task description that is vague, incomplete, or disorganized
-- Asks you to "refine", "improve", "structure", or "craft" a prompt
-- Mentions they need a prompt for a specific agent (Claude Code, Codex, OpenClaw, Hermes)
+**Direct asks (EN · 中文):**
+
+- "turn this into a prompt" / "make this usable" · 「把这个变成 prompt」「帮我整理成提示词」
+- "help me write a prompt for…" / "write me a prompt that…" · 「帮我写个…的 prompt」「帮我写个提示词，让它…」
+- "improve / refine / fix / rewrite / shorten my prompt" · 「帮我优化 / 改改 / 重写 / 精简这个 prompt」
+- "I want the AI to do X but don't know how to phrase it" · 「我想让 AI 做 X，但不知道怎么跟它说」
+- "how do I tell the AI to…" / "write instructions the AI will follow" · 「怎么跟 AI 说它才明白」「帮我写段能让 AI 照做的指令」
+- Mentions a target agent: Claude Code, Codex, Cursor, Windsurf, Cline, OpenClaw, Hermes
+
+**Indirect signals (the user never says "prompt"):**
+
+- Dumps fragmented ideas, bullets, or rough notes and asks you to organize them into something the AI can act on
+- Shares a vague, incomplete, or disorganized task description meant for an AI to execute
+- Pastes a prompt/system message that "isn't working" and wants it diagnosed or fixed
+- Asks how to get a consistent, repeatable result from an AI (not a one-off answer)
+
+**Do NOT trigger** for ordinary coding, writing, or analysis tasks that are not about crafting a prompt for another AI to run.
 
 ---
 

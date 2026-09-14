@@ -117,3 +117,29 @@
 > i have no idea how to describe it, just help me write a prompt that gets the AI to do what i need.
 
 > 不知道怎么描述，反正就是要 AI 帮我做事，你帮我写个 prompt 吧。
+
+## 优化与诊断现有 prompt
+
+> this prompt isn't working — the AI keeps ignoring my format requirements. here it is: "[paste prompt]". help me fix it.
+
+> 我这段 prompt 效果不好，AI 老是忽略我的格式要求。原文是：「[粘贴 prompt]」。帮我改改。
+
+> review this system prompt and tell me what's wrong with it. don't rewrite it yet — just the issues.
+
+> 帮我审一下这段 system prompt，有什么问题？先别急着重写，只要告诉我问题在哪。
+
+> can you make my prompt shorter and clearer? it's too long and rambly, and the AI loses focus halfway through.
+
+> 帮我把这段 prompt 精简一下，太啰嗦了，AI 读到一半就跑偏。
+
+> i wrote a prompt but the AI gives inconsistent results every time. improve it so it's reliable.
+
+> 我写了个 prompt，但 AI 每次给的答案都不稳定。帮我优化，让它稳定可复现。
+
+> here's a rough instruction i drafted — turn it into a proper prompt.
+
+> 这是我草拟的一段指令，帮我把它整理成规范的 prompt。
+
+> no matter how i ask, the AI keeps doing the wrong thing. here's what i told it: "[paste]". how should i phrase it?
+
+> 不管我怎么说，AI 总是做错。我给它的是：「[粘贴]」。我该怎么跟它说才对？

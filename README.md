@@ -54,7 +54,7 @@ A markdown document: # PR Checklist → ## Before You Submit →
 ## During Review → ## Review Quality Guidelines
 ```
 
-See [`examples.md`](examples.md) for 7 more bilingual (EN/ZH) before/after demonstrations.
+See [`examples.md`](examples.md) for 9 bilingual (EN/ZH) before/after demonstrations.
 
 ---
 
@@ -69,7 +69,7 @@ Prompt Crafter follows a 4-phase workflow:
 | **3. Craft** | Build the prompt from a universal template: Role → Task → Context → Steps → Constraints → Output Format → Examples. |
 | **4. Deliver** | Present the prompt in a copyable code block, add a one-line summary, and offer iteration. |
 
-Every output is verified against an 8-item quality checklist (clarity, enforceability, ambiguity, contradictions, platform fit, etc.).
+Every output is verified against a 9-item quality checklist (clarity, enforceability, ambiguity, contradictions, platform fit, etc.).
 
 ---
 
@@ -102,7 +102,7 @@ prompt-crafter/
 ├── .cursorrules      # Cursor instructions
 ├── .windsurfrules    # Windsurf instructions
 ├── drivers.md       # Collection of trigger phrases (EN/ZH) for testing
-├── examples.md      # 7 full before/after examples (bilingual EN/ZH)
+├── examples.md      # 9 full before/after examples (bilingual EN/ZH)
 ├── README.md         # This file
 └── License           # License
 ```
@@ -159,7 +159,9 @@ The AI will read the file automatically — no activation needed. It will follow
 
 ## Usage
 
-Once installed, just talk naturally. The AI recognizes trigger patterns and enters the workflow automatically. Examples:
+Once installed, just talk naturally. The AI recognizes trigger patterns and enters the workflow automatically. On load, the skill prints a short bilingual (English / 中文) usage guide with example prompts you can copy. To see that guide again at any time, send the keyword **`pc help`** (aliases: `pc usage`, `/prompt-crafter help`, `pc 帮助`, `prompt-crafter 用法`).
+
+Examples:
 
 ```
 /prompt-crafter
@@ -168,6 +170,8 @@ i need a prompt for my team's code review checklist
 帮我写个 prompt，让它根据用户调研提炼核心痛点
 
 write a claude code prompt for generating commit messages
+
+pc help        # re-display the usage guide
 ```
 
 See [`drivers.md`](drivers.md) for a full collection of trigger phrases to test with.
