@@ -159,17 +159,17 @@ The AI will read the file automatically — no activation needed. It will follow
 
 ## Usage
 
-Once installed, just talk naturally. The AI recognizes trigger patterns and enters the workflow automatically. On load, the skill prints a short bilingual (English / 中文) usage guide with example prompts you can copy. To see that guide again at any time, send the keyword **`pc help`** (aliases: `pc usage`, `/prompt-crafter help`, `pc 帮助`, `prompt-crafter 用法`).
+Once installed, the skill stays **silent**. It prints nothing on load and never joins a conversation you did not hand it, so your other skills and ordinary requests are untouched. To hand it a request, begin a message with the wake word **`pc`** — e.g. `pc 帮我把这堆零散笔记整理成 prompt` — or send `/prompt-crafter`; everything after the wake word is the request. **`pc help`** (aliases: `pc usage`, `/prompt-crafter help`, `pc 帮助`, `prompt-crafter 用法`) prints the usage guide, and **`pc on`** / **`pc off`** switch ambient mode (vague input auto-activates) on and off for the session.
 
 Examples:
 
 ```
 /prompt-crafter
-i need a prompt for my team's code review checklist
+pc i need a prompt for my team's code review checklist
 
-帮我写个 prompt，让它根据用户调研提炼核心痛点
+pc 帮我写个 prompt，让它根据用户调研提炼核心痛点
 
-write a claude code prompt for generating commit messages
+pc write a claude code prompt for generating commit messages
 
 pc help        # re-display the usage guide
 ```
@@ -178,7 +178,7 @@ See [`drivers.md`](drivers.md) for a full collection of trigger phrases to test 
 
 ## Testing
 
-Use [`drivers.md`](drivers.md) to verify the skill is working. Pick any line, paste it into your AI coding tool, and confirm it follows the 4-phase workflow and produces a structured prompt.
+Use [`drivers.md`](drivers.md) to verify the skill is working. Prefix any line with the wake word (`pc <line>`), paste it into your AI coding tool, and confirm it follows the 4-phase workflow and produces a structured prompt. A bare line without the wake word must produce no reaction at all — that is the negative test.
 
 ---
 

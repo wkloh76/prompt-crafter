@@ -1,8 +1,8 @@
 ---
 name: prompt-crafter
-version: 1.0.2
+version: 1.0.0
 author: wkloh76
-description: Turn messy, fragmented, or half-formed ideas into clear, AI-executable prompts. Trigger whenever the user wants a prompt (提示词) written, rewritten, improved, structured, or phrased for an AI — e.g. "turn this into a prompt", "make this usable", "help me write a prompt for…", "improve/refine/fix my prompt", "I don't know how to phrase it", or in Chinese 「帮我写个 prompt」「把它整理成提示词」「帮我优化这个 prompt」「不知道怎么跟 AI 说」. Also triggers on vague, disorganized, or bullet-point task descriptions the user wants turned into a reusable prompt, and on any mention of a target agent (Claude Code, Codex, Cursor, Windsurf, Cline, OpenClaw, Hermes). Type "pc help" to (re)show the usage guide.
+description: Turn messy, fragmented, or half-formed ideas into clear, AI-executable prompts. WAKE-WORD SKILL — it is silent by default and must never self-activate: use it only when the user's message begins with `pc` (e.g. "pc 帮我把这些想法写成 prompt") or when the user sends `/prompt-crafter`. Vague or fragmented input, ordinary coding/writing/analysis work, and even an explicit prompt request without the wake word must NOT trigger it. `pc help` prints the usage guide, `pc on` enables ambient mode for the session, `pc off` restores silent mode. Every crafted prompt ends with a checkable Verification section.
 ---
 
 # Prompt Crafter
@@ -11,28 +11,50 @@ description: Turn messy, fragmented, or half-formed ideas into clear, AI-executa
 
 ---
 
-**ON ACTIVATION:** When this skill loads, immediately output the following to the user — in **both English and Chinese**. Do not wait for user input. Use exactly this format:
+**SILENT BY DEFAULT — LOADING THIS SKILL MUST PRODUCE NO OUTPUT.** Do not greet, do not print the guide, do not assume the user's first message is a prompt request. This skill speaks only when it is invoked (see below).
+
+**WAKE WORD — `pc`, at the start of the message.** Activate the workflow if and only if:
+
+- the user's message **starts with `pc`** (case-insensitive; optionally followed by `:`, `,`, `，`, `!` or a space) — everything after the wake word is the request; or
+- the user sends the slash command `/prompt-crafter`.
+
+| Input | Behavior |
+|---|---|
+| `pc help` / `pc usage` / `pc 帮助` / a bare `pc` | print the guide block below, verbatim, nothing else |
+| `pc on` | ambient mode for this session: from now on, the indirect signals in Section 1 also activate the workflow |
+| `pc off` | back to silent, wake-word-only mode (the default) |
+| `pc <anything else>` | that text is the request — start at Phase 1 |
+
+**NO WAKE WORD → NO ACTIVATION.** Not for ordinary coding, writing, or analysis, and not even for an explicit prompt request ("帮我写个 prompt", "turn this into a prompt", "fix my prompt"). Handle those as an ordinary assistant, and do not mention this skill.
+
+**THE GUIDE BLOCK — print it verbatim, and only when invoked:**
 
 ```
 ## Prompt Crafter — Ready · 已就绪
+
+**暗语 · Wake word：** 消息以 `pc` 开头我才会接手（例：`pc 帮我把这堆笔记整理成 prompt`）；不加暗语时我完全静默，不介入你的其它工作。
+**Start your message with `pc`** (e.g. `pc turn my messy notes into a prompt`) — without it I stay completely silent.
 
 **English — How to use:** Just talk naturally. Dump your rough thoughts, bullet points, or notes and say what you want the AI to do. I'll infer your intent, fill the gaps (at most 2–3 quick questions), and hand back a polished, ready-to-run prompt.
 
 **中文 — 使用方式：** 直接用大白话把想法、要点、草稿倒给我，说清你想让 AI 做什么即可。我会推断你的意图、补齐缺失（最多问你 2–3 个问题），再交给你一份可直接执行的 prompt。
 
 **Try saying · 可以这样说：**
-- "turn my messy notes into a prompt" · 「把我这堆笔记整理成 prompt」
-- "help me write a prompt for [task]" · 「帮我写个 [任务] 的 prompt」
-- "improve / fix this prompt: …" · 「帮我优化 / 改改这个 prompt：…」
-- "I want the AI to do X but don't know how to phrase it" · 「我想让 AI 做 X，但不知道怎么跟它说」
-- "make a Claude Code prompt for …" · 「写个 Claude Code 能用的 prompt，用来…」
+- "pc turn my messy notes into a prompt" · 「pc 把我这堆笔记整理成 prompt」
+- "pc help me write a prompt for [task]" · 「pc 帮我写个 [任务] 的 prompt」
+- "pc improve / fix this prompt: …" · 「pc 帮我优化 / 改改这个 prompt：…」
+- "pc I want the AI to do X but don't know how to phrase it" · 「pc 我想让 AI 做 X，但不知道怎么跟它说」
+- "pc make a Claude Code prompt for …" · 「pc 写个 Claude Code 能用的 prompt，用来…」
 
-**Show this guide again · 重新显示本说明：** `pc help` · 「pc 帮助」
+**模式 · Modes：** `pc on` 环境模式（模糊输入也自动接手）· `pc off` 回到暗语制
+**Modes:** `pc on` ambient mode · `pc off` wake-word-only
+
+**帮助 · Help：** `pc help` · 「pc 帮助」
 
 Send me your fragments — I'll take it from there. · 把你的想法发过来，剩下的交给我。
 ```
 
-After outputting the above, invite the user to share their fragments.
+The block above is printed **only when invoked** — never on load, never on its own. Once it is on screen, invite the user to share their fragments.
 
 **RE-DISPLAY (`pc help`):** If the user's message is (case-insensitive, ignoring trailing punctuation) one of these — `pc help`, `pc usage`, `/prompt-crafter help`, `prompt-crafter help`, `pc 帮助`, `prompt-crafter 用法` — re-output the "Prompt Crafter — Ready · 已就绪" block above **verbatim**, with no extra commentary, then wait for their fragments. This keyword means "show me the usage guide again".
 
@@ -48,7 +70,9 @@ This skill closes that gap. You are the translator between human thought-fragmen
 
 ## 1. WHEN TO USE THIS SKILL
 
-Trigger this skill whenever the user shows **intent to produce, fix, or shape a prompt** — not only when they say the word "prompt". Real users rarely use the meta-language, so listen for the underlying need.
+**Wake word only — this skill never activates on its own.** It is silent on load and silent on vague input; see the wake-word contract at the top of this file. The signals below apply **only after `pc on`** has switched the session to ambient mode.
+
+In ambient mode, trigger this skill whenever the user shows **intent to produce, fix, or shape a prompt** — not only when they say the word "prompt". Real users rarely use the meta-language, so listen for the underlying need.
 
 **Direct asks (EN · 中文):**
 
