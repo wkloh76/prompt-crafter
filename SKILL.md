@@ -2,7 +2,7 @@
 name: prompt-crafter
 version: 1.0.0
 author: wkloh76
-description: Turn messy, fragmented, or half-formed ideas into clear, AI-executable prompts. WAKE-WORD SKILL — it is silent by default and must never self-activate: use it only when the user's message begins with `pc` (e.g. "pc 帮我把这些想法写成 prompt") or when the user sends `/prompt-crafter`. Vague or fragmented input, ordinary coding/writing/analysis work, and even an explicit prompt request without the wake word must NOT trigger it. `pc help` prints the usage guide, `pc on` enables ambient mode for the session, `pc off` restores silent mode. Every crafted prompt ends with a checkable Verification section.
+description: Turn messy, fragmented, or half-formed ideas into clear, AI-executable prompts. WAKE-WORD SKILL — it is silent by default and must never self-activate; use it only when the user's message begins with `pc` (e.g. "pc 帮我把这些想法写成 prompt") or when the user sends `/prompt-crafter`. Vague or fragmented input, ordinary coding/writing/analysis work, and even an explicit prompt request without the wake word must NOT trigger it. `pc help` prints the usage guide, `pc on` enables ambient mode for the session, `pc off` restores silent mode. Every crafted prompt ends with a checkable Verification section.
 ---
 
 # Prompt Crafter

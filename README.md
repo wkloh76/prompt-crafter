@@ -103,6 +103,7 @@ prompt-crafter/
 ├── .windsurfrules    # Windsurf instructions
 ├── drivers.md       # Collection of trigger phrases (EN/ZH) for testing
 ├── examples.md      # 9 full before/after examples (bilingual EN/ZH)
+├── CHANGELOG.md      # Version history (Keep a Changelog)
 ├── README.md         # This file
 └── License           # License
 ```
@@ -116,7 +117,7 @@ prompt-crafter/
 Clone this repository into your skills directory:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/prompt-crafter.git ~/.agents/skills/prompt-crafter
+git clone https://github.com/wkloh76/prompt-crafter.git ~/.agents/skills/prompt-crafter
 ```
 
 Or download and extract manually:
@@ -201,8 +202,15 @@ Improvements to the skill workflow, new platform adaptations, or additional exam
 - **To add a platform:** Create the appropriate instruction file (e.g., `.aiderules` for Aide) using the existing files as templates.
 - **To add examples:** Append to [`examples.md`](examples.md) following the existing format.
 - **To add trigger phrases:** Append to [`drivers.md`](drivers.md).
+- **To record a change:** Add an entry to [`CHANGELOG.md`](CHANGELOG.md) following [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 No build step required. Changes are effective immediately — the files are consumed as-is by the target platforms.
+
+---
+
+## Changelog
+
+This project follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). See [`CHANGELOG.md`](CHANGELOG.md) for the full version history.
 
 ---
 
