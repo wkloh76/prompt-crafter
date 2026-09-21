@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- **`npx skills add` installation path** — the README documents installing the skill with the [skills](https://github.com/vercel-labs/skills) CLI for Claude Code, Codex, Cursor, and Kimi Code CLI, including the project and global directory each agent scans (Codex, Cursor and Kimi Code CLI share one copy under `.agents/skills/`; Claude Code is symlinked to it). Completed on 2026-09-21
+
 ## [1.0.0] - 2026-09-21
 
 First public release.

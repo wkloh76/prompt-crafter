@@ -112,7 +112,38 @@ prompt-crafter/
 
 ## Installation
 
-### Native skill support (recommended)
+### Install with the `skills` CLI (recommended)
+
+The [skills](https://github.com/vercel-labs/skills) CLI (Node.js — run it with `npx`) installs the skill into the directory each agent actually scans.
+
+#### Kimi Code CLI
+
+```bash
+npx skills add https://github.com/wkloh76/prompt-crafter -g -a kimi-code-cli -y
+```
+
+That is the whole install: one copy at `~/.agents/skills/prompt-crafter`, the user-level skills directory Kimi Code CLI reads. Drop `-g` to install into the current project instead — the skill goes to `.agents/skills/prompt-crafter`, which is committed with the repo and shared with your team.
+
+#### Claude Code, Codex, Cursor
+
+```bash
+npx skills add https://github.com/wkloh76/prompt-crafter -g -a claude-code -a codex -a cursor -y
+```
+
+Add or drop `-a` flags per client; each one behaves the same way as above. Claude Code keeps its own directory, while Codex and Cursor share `.agents/skills/` — the very copy the Kimi Code CLI install writes — so installing several agents side by side still produces just one copy of the skill plus a symlink for Claude Code.
+
+#### Where the files land (`skills` v1.7.0)
+
+| Agent | `--agent` | Project path | Global path |
+|---|---|---|---|
+| Kimi Code CLI | `kimi-code-cli` | `.agents/skills/prompt-crafter` | `~/.agents/skills/prompt-crafter` |
+| Claude Code | `claude-code` | `.claude/skills/prompt-crafter` (symlink) | `~/.claude/skills/prompt-crafter` (symlink) |
+| Codex | `codex` | `.agents/skills/prompt-crafter` | `~/.agents/skills/prompt-crafter` |
+| Cursor | `cursor` | `.agents/skills/prompt-crafter` | `~/.agents/skills/prompt-crafter` |
+
+A project install writes `skills-lock.json` at the repo root; a global install writes `~/.agents/.skill-lock.json`. Any other agent: `--agent '*'` (or `--all`) covers every agent the CLI detects. Use `--skill prompt-crafter` to select this skill by its install name (the `name:` field in the frontmatter), `npx skills list` to see what is installed, `npx skills update` to refresh it, and `npx skills remove prompt-crafter` to uninstall.
+
+### Manual install
 
 Clone this repository into your skills directory:
 
